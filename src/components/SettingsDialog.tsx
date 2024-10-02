@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
+import { useRouter } from 'next/router';
 
 type SettingsDialogProps = {
   isOpen: boolean;
@@ -27,10 +28,32 @@ export function SettingsDialog({
 }: SettingsDialogProps) {
   const [localApiKey, setLocalApiKey] = useState(apiKey);
   const [localProvider, setLocalProvider] = useState(provider);
+  const router = useRouter();
 
-  const handleSave = () => {
-    onSave(localApiKey, localProvider);
-    onClose();
+  const handleSave = async () => {
+    try {
+      const response = await fetch('/api/save-config', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          apiKey: localApiKey,
+          provider: localProvider,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save configuration');
+      }
+
+      onSave(localApiKey, localProvider);
+      onClose();
+      router.reload(); // Reload the page to ensure the new configuration is used
+    } catch (error) {
+      console.error('Error saving configuration:', error);
+      // Handle error (e.g., show an error message to the user)
+    }
   };
 
   return (

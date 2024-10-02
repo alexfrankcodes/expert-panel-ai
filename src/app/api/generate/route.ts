@@ -1,13 +1,11 @@
 import { Anthropic } from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { cookies } from "next/headers";
+import { decrypt } from "@/lib/encryption"; // You'll need to implement this
 
 export async function POST(req: NextRequest) {
-  const { provider, apiKey, topic, personas } = await req.json();
-
-  if (!apiKey) {
-    return NextResponse.json({ error: "API key is required" }, { status: 400 });
-  }
+  const { topic, personas } = await req.json();
 
   if (!topic) {
     return NextResponse.json({ error: "Topic is required" }, { status: 400 });
@@ -19,6 +17,15 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
+
+  // Retrieve the API configuration from the cookie
+  const apiConfigCookie = cookies().get('api_config');
+  if (!apiConfigCookie) {
+    return NextResponse.json({ error: "API configuration not found" }, { status: 400 });
+  }
+
+  const { apiKey: encryptedApiKey, provider } = JSON.parse(apiConfigCookie.value);
+  const apiKey = decrypt(encryptedApiKey);
 
   try {
     let responses = [];
@@ -41,13 +48,9 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function generateOpenAIResponses(
-  apiKey: string,
-  topic: string,
-  personas: any[]
-) {
+// Update these functions to accept apiKey as a parameter
+async function generateOpenAIResponses(apiKey: string, topic: string, personas: any[]) {
   const openai = new OpenAI({ apiKey });
-
   const systemPrompt = `You will provide responses for multiple personas on a given topic. 
     Return your response as a JSON object where each key is the persona's name and 
     the value is their response. Do not include any text outside of the JSON object. 
@@ -88,13 +91,8 @@ async function generateOpenAIResponses(
   }));
 }
 
-async function generateAnthropicResponses(
-  apiKey: string,
-  topic: string,
-  personas: any[]
-) {
+async function generateAnthropicResponses(apiKey: string, topic: string, personas: any[]) {
   const anthropic = new Anthropic({ apiKey });
-
   const prompt = `You will provide responses for multiple personas on the following topic: ${topic}
 
     Personas:
