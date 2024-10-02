@@ -1,8 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expert AI Panel
+
+This is a [Next.js](https://nextjs.org) project that creates an AI-powered expert panel discussion generator. It allows users to create and manage personas, generate responses on various topics, and save/load panel configurations.
+
+## Features
+
+- Create and manage expert personas
+- Generate AI-powered responses for multiple personas on a given topic
+- Support for OpenAI and Anthropic AI providers
+- Save and load panel configurations
+- Download generated responses in various formats (Markdown, JSON, Plain Text)
+- Responsive design with a dark theme
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +31,36 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Before using the application, you need to set up your API credentials:
+
+1. Open the application in your browser
+2. Click the settings icon in the top right corner
+3. Enter your API key for either OpenAI or Anthropic
+4. Select your preferred AI provider
+5. Save the settings
+
+## Usage
+
+1. Create expert personas using the "Add Expert" form
+2. Enter a topic for discussion in the input field
+3. Click "Generate Responses" to get AI-generated responses for each persona
+4. View the responses in the list below
+5. Optionally, download the responses in your preferred format
+
+You can also save and load panel configurations using the controls in the top right corner.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project, check out the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Tailwind CSS](https://tailwindcss.com/docs) - a utility-first CSS framework.
+- [shadcn/ui](https://ui.shadcn.com/) - re-usable components built with Radix UI and Tailwind CSS.
+- [OpenAI API](https://platform.openai.com/docs/api-reference) - documentation for the OpenAI API.
+- [Anthropic API](https://www.anthropic.com/product) - information about Anthropic's AI models.
