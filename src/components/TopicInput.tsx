@@ -5,12 +5,14 @@ type TopicInputProps = {
   topic: string;
   onTopicChange: (topic: string) => void;
   onGenerateResponses: () => void;
+  isLoading: boolean; // Add this new prop
 };
 
 export function TopicInput({
   topic,
   onTopicChange,
   onGenerateResponses,
+  isLoading,
 }: TopicInputProps) {
   return (
     <div className="space-y-2">
@@ -23,8 +25,9 @@ export function TopicInput({
       <Button
         onClick={onGenerateResponses}
         className="w-full bg-accent hover:bg-accent-hover"
+        disabled={isLoading} // Disable the button while loading
       >
-        Generate Responses
+        {isLoading ? "Generating..." : "Generate Responses"}
       </Button>
     </div>
   );

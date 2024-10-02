@@ -19,6 +19,7 @@ export default function ExpertAIPanel() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [panels, setPanels] = useState<Panel[]>(examplePanels);
   const [selectedPanel, setSelectedPanel] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Load stored data
@@ -40,13 +41,39 @@ export default function ExpertAIPanel() {
     alert("API configuration saved!");
   };
 
-  const handleGenerateResponses = () => {
-    if (!topic) return;
-    const simulatedResponses = personas.map((persona) => ({
-      personaName: persona.name,
-      content: `Test response from ${persona.name} about "${topic}". Context: ${persona.context}.`,
-    }));
-    setResponses(simulatedResponses);
+  const handleGenerateResponses = async () => {
+    if (!topic || personas.length === 0) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          provider,
+          apiKey,
+          topic,
+          personas,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to generate responses");
+      }
+
+      const data = await response.json();
+      setResponses(data.responses);
+    } catch (error) {
+      console.error("Error generating responses:", error);
+      alert(
+        "Failed to generate responses. Please check your API configuration and try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const savePanel = (panelName: string) => {
@@ -103,6 +130,7 @@ export default function ExpertAIPanel() {
             topic={topic}
             onTopicChange={setTopic}
             onGenerateResponses={handleGenerateResponses}
+            isLoading={isLoading}
           />
 
           <AddPersonaForm onAddPersona={handleAddPersona} />
@@ -125,7 +153,7 @@ export default function ExpertAIPanel() {
             }}
           />
 
-          <ResponseList responses={responses} />
+          <ResponseList responses={responses} isLoading={isLoading} />
 
           <SettingsDialog
             isOpen={isSettingsOpen}
