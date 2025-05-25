@@ -23,7 +23,6 @@ export const examplePanels: Panel[] = [
         context: "Expertise in software, philanthropy, and global health initiatives",
       },
     ],
-    apiKey: "",
     provider: "openai",
   },
   {
@@ -48,7 +47,6 @@ export const examplePanels: Panel[] = [
         context: "Known for critiques of traditional morality and religion",
       },
     ],
-    apiKey: "",
     provider: "anthropic",
   },
 ];

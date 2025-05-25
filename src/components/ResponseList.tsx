@@ -63,6 +63,12 @@ export function ResponseList({ responses, isLoading }: ResponseListProps) {
             </p>
           </CardContent>
         </Card>
+      ) : responses.length === 0 ? (
+        <Card className="bg-secondary bg-opacity-50 backdrop-filter backdrop-blur-lg border-secondary">
+          <CardContent className="p-4">
+            <p className="text-neutral-300 text-center">No responses yet.</p>
+          </CardContent>
+        </Card>
       ) : (
         <>
           {responses.map((response, index) => (

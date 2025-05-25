@@ -115,7 +115,7 @@ export default function ExpertAIPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-gray-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-slate-900 to-neutral-950 text-gray-100 p-4">
       <div className="container mx-auto max-w-3xl">
         <Header
           panels={panels}
