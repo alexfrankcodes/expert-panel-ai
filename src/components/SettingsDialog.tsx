@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type SettingsDialogProps = {
   isOpen: boolean;
@@ -49,7 +49,7 @@ export function SettingsDialog({
 
       onSave(localApiKey, localProvider);
       onClose();
-      router.reload(); // Reload the page to ensure the new configuration is used
+      router.refresh(); // Refresh the page to ensure the new configuration is used
     } catch (error) {
       console.error('Error saving configuration:', error);
       // Handle error (e.g., show an error message to the user)

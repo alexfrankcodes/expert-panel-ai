@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="py-6 text-center text-neutral-400 text-sm bg-gray-900 ">
+    <footer className="py-6 mt-auto text-center text-neutral-400 text-sm bg-neutral-900 border-t border-neutral-700">
       <p>
         © {new Date().getFullYear()}{" "}
         <Link
